@@ -2,7 +2,7 @@ const { DataTypes } = require('sequelize');
 const sequelize = require('../config/dbconnection');
 const RoomImage = require('./roomImage');
 
-const Room = sequelize.define('Room', {
+const Categories = sequelize.define('Categories', {
   name: {
     type: DataTypes.STRING,
     allowNull: false,
@@ -11,18 +11,18 @@ const Room = sequelize.define('Room', {
     type: DataTypes.STRING,
     allowNull: false,
   },
-  price: {
-    type: DataTypes.FLOAT, 
-    allowNull: false,
-  },
   description: {
     type: DataTypes.STRING,
     allowNull: false,
   },
+  price: {
+    type: DataTypes.FLOAT, 
+    allowNull: false,
+  },
 }, {
-  tableName: 'room',
+  tableName: 'categories',
 });
 
-Room.hasMany(RoomImage, { foreignKey: 'roomId', onDelete: 'CASCADE' });
+Categories.hasMany(RoomImage, { foreignKey: 'roomId', onDelete: 'CASCADE' });
 
-module.exports = Room;
+module.exports = Categories;

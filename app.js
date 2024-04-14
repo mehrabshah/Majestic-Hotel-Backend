@@ -11,6 +11,8 @@ require('./config/dbconnection')
 
 const contactUsRoutes = require('./routes/contactUsRoutes');
 app.use('/contactUs', contactUsRoutes);
+const categoryRoutes = require('./routes/categoriesRoutes');
+app.use('/category', categoryRoutes);
 const bookingRoutes = require('./routes/bookingRoutes');
 app.use('/booking', bookingRoutes);
 const roomRoutes = require('./routes/roomRoutes');

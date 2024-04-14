@@ -1,6 +1,6 @@
 const { DataTypes } = require('sequelize');
 const sequelize = require('../config/dbconnection');
-const Car = require('./room'); 
+const Room = require('./room'); 
 
 const Booking = sequelize.define('Booking', {
   firstName: {
@@ -40,26 +40,20 @@ const Booking = sequelize.define('Booking', {
     type: DataTypes.INTEGER, 
     allowNull: false,
     references: {
-      model: Car,
+      model: Room,
       key: 'id',
     },
   },
-  pickupDate: {
+  startDate: {
     type: DataTypes.DATE,
   },
-  dropOffDate: {
+  endDate: {
     type: DataTypes.DATE,
-  },
-  location: {
-    type: DataTypes.STRING,
-  },
-  licenseNumber: {
-    type: DataTypes.STRING,
   },
 }, {
   tableName: 'booking',
 });
 
-Booking.belongsTo(Car, { foreignKey: 'roomId' });
+Booking.belongsTo(Room, { foreignKey: 'roomId' });
 
 module.exports = Booking;

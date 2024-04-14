@@ -3,14 +3,15 @@ const ContactUs  = require('../models/contactUs');
 
 const createContactUs = async (req, res) => {
   try {
-    const { name, email, query } = req.body;
-    const newContactUs = await ContactUs.create({ name, email, query });
+    const { name, email, telephone, subject, comments } = req.body;
+    const newContactUs = await ContactUs.create({ name, email, telephone, subject, comments });
     res.status(201).json(newContactUs);
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: 'Error creating contactUs entry' });
   }
 };
+
 
 
 const getAllContactUs = async (req, res) => {

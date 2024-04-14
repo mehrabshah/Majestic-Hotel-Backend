@@ -2,45 +2,40 @@
 
 module.exports = {
   up: async (queryInterface, Sequelize) => {
-    await queryInterface.createTable('contact_us', {
+    await queryInterface.createTable('room', {
       id: {
-        type: Sequelize.INTEGER,
-        primaryKey: true,
-        autoIncrement: true,
         allowNull: false,
+        autoIncrement: true,
+        primaryKey: true,
+        type: Sequelize.INTEGER
       },
       name: {
         type: Sequelize.STRING,
         allowNull: false,
       },
-      email: {
+      image: {
         type: Sequelize.STRING,
         allowNull: false,
       },
-      telephone: {
-        type: Sequelize.STRING,
+      price: {
+        type: Sequelize.FLOAT,
         allowNull: false,
       },
-      subject: {
+      description: {
         type: Sequelize.STRING,
-        allowNull: false,
-      },
-      comments: {
-        type: Sequelize.TEXT,
         allowNull: false,
       },
       createdAt: {
-        type: Sequelize.DATE,
         allowNull: false,
+        type: Sequelize.DATE
       },
       updatedAt: {
-        type: Sequelize.DATE,
         allowNull: false,
-      },
+        type: Sequelize.DATE
+      }
     });
   },
-
   down: async (queryInterface, Sequelize) => {
-    await queryInterface.dropTable('contact_us');
-  },
+    await queryInterface.dropTable('room');
+  }
 };
