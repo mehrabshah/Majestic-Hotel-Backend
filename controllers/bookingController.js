@@ -112,7 +112,7 @@ const markBookingDone = async (req, res) => {
   }
 };
 const getAvailableRooms = async (req, res) => {
-  const { startDate, endDate, numberOfRooms } = req.body;
+  const { startDate, endDate } = req.body;
 
   try {
     // Find all rooms that do not have overlapping bookings for the specified dates
@@ -125,23 +125,36 @@ const getAvailableRooms = async (req, res) => {
           endDate: { [Op.gt]: startDate }
         }
       }],
-      group: ['Room.categoryId'],
-      having: Sequelize.literal(`COUNT(Room.categoryId) >= ${numberOfRooms}`),
+    });
+    const filteredAvailableRooms = availableRooms.filter(room => room.Bookings.length === 0);
+    const availableRoomsByCategory = filteredAvailableRooms.reduce((acc, room) => {
+      if (!acc[room.categoryId]) {
+        acc[room.categoryId] = 0;
+      }
+      acc[room.categoryId]++;
+      return acc;
+    }, {});
+
+    // Fetch all categories from the database
+    const categories = await Categories.findAll();
+
+    // Update each category with the count of available rooms
+    const categoriesWithAvailableRooms = categories.map(category => {
+      return {
+       ...category.dataValues,
+        // Calculate the number of available rooms for the category
+        availableRooms: availableRoomsByCategory[category.id] || 0
+      };
     });
 
-    // Return the categories of available rooms
-    const availableCategories = availableRooms.map(room => room.categoryId);
-    const categories = await Categories.findAll({
-      where: {
-        id: availableCategories
-      }
-    });
-    res.status(200).json(categories);
+    res.status(200).json(categoriesWithAvailableRooms);
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: 'Error retrieving available rooms' });
   }
 };
+
+
 
 
 module.exports = {
