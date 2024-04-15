@@ -1,0 +1,126 @@
+{
+	"info": {
+		"_postman_id": "ee1e76b6-d579-40fb-b775-5085d09ae62e",
+		"name": "Majestic Hotel",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "33451159"
+	},
+	"item": [
+		{
+			"name": "Auth",
+			"item": [
+				{
+					"name": "CREATE USER",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"email\": \"admin@gmail.com\",\r\n  \"password\": \"Qwerty@123\",\r\n  \"role\": \"admin\",\r\n  \"firstName\": \"John\",\r\n  \"lastName\": \"Doe\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{MAJESTICURL}}auth/signup",
+							"host": [
+								"{{MAJESTICURL}}auth"
+							],
+							"path": [
+								"signup"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Contact Us",
+			"item": [
+				{
+					"name": "CREATE CONTACT US",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"name\": \"John Doe\",\r\n  \"email\": \"johndoe@example.com\",\r\n  \"telephone\": \"+123456789\",\r\n  \"subject\": \"General information of the hotel\",\r\n  \"comments\": \"I have some questions about the hotel amenities.\"\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{MAJESTICURL}}contactUs/createContactUs",
+							"host": [
+								"{{MAJESTICURL}}contactUs"
+							],
+							"path": [
+								"createContactUs"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Categories",
+			"item": [
+				{
+					"name": "CREATE CATEGORIES",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"name\": \"Family Room\",\r\n  \"image\": \"./assets/RoomImages/FamilyRoom/FamilyRoom1.webp\",\r\n  \"description\": \"The family room features a wardrobe, an electric kettle, as well as a private bathroom boasting a bath or a shower and a hairdryer. This family room has a carpeted floor, heating and a TV. The unit has 3 beds.\",\r\n  \"price\": 500\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{MAJESTICURL}}category/createCategory",
+							"host": [
+								"{{MAJESTICURL}}category"
+							],
+							"path": [
+								"createCategory"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET ALL CATEGORIES",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{MAJESTICURL}}category/getAllCategory",
+							"host": [
+								"{{MAJESTICURL}}category"
+							],
+							"path": [
+								"getAllCategory"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"variable": [
+		{
+			"key": "MAJESTICURL",
+			"value": "http://localhost:8000/"
+		}
+	]
+}
