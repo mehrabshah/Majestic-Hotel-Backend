@@ -78,7 +78,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n  \"name\": \"Family Room\",\r\n  \"image\": \"./assets/RoomImages/FamilyRoom/FamilyRoom1.webp\",\r\n  \"description\": \"The family room features a wardrobe, an electric kettle, as well as a private bathroom boasting a bath or a shower and a hairdryer. This family room has a carpeted floor, heating and a TV. The unit has 3 beds.\",\r\n  \"price\": 500\r\n}\r\n",
+							"raw": "{\r\n  \"name\": \"Single Room Sea View\",\r\n  \"image\": \"./assets/RoomImages/SingleRoom/singleRoom1.jpg\",\r\n  \"description\": \"These rooms have private bathrooms, a TV, a hairdryer, and tea/coffee making facilities.\",\r\n  \"capacity\":1,\r\n  \"price\": 500\r\n}\r\n",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -109,6 +109,128 @@
 							],
 							"path": [
 								"getAllCategory"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Room",
+			"item": [
+				{
+					"name": "CREATE ROOM BULK",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"name\": \"Single Room Sea View\",\r\n  \"image\": \"./assets/RoomImages/SingleRoom/singleRoom1.jpg\",\r\n  \"description\": \"These rooms have private bathrooms, a TV, a hairdryer, and tea/coffee making facilities.\",\r\n  \"price\": 500,\r\n  \"categoryId\": 8,\r\n  \"numberOfRooms\": 1\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{MAJESTICURL}}room/createRoomBulk",
+							"host": [
+								"{{MAJESTICURL}}room"
+							],
+							"path": [
+								"createRoomBulk"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET ALL CATEGORIES",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{MAJESTICURL}}room/getAllRooms",
+							"host": [
+								"{{MAJESTICURL}}room"
+							],
+							"path": [
+								"getAllRooms"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Bookings",
+			"item": [
+				{
+					"name": "CREATE Booking",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"categoryId\": 8,\r\n  \"startDate\": \"2024-04-26\",\r\n  \"endDate\": \"2024-04-26\",\r\n  \"numberOfRooms\": 1,\r\n  \"firstName\": \"John\",\r\n  \"lastName\": \"Doe\",\r\n  \"age\": 30,\r\n  \"status\": \"Confirmed\",\r\n  \"phoneNumber\": \"1234567890\",\r\n  \"email\": \"john.doe@example.com\",\r\n  \"address\": \"123 Main St\",\r\n  \"zipCode\": \"12345\",\r\n  \"city\": \"New York\"\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{MAJESTICURL}}booking/createBookings",
+							"host": [
+								"{{MAJESTICURL}}booking"
+							],
+							"path": [
+								"createBookings"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET AVAILABLE ROOMS",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"startDate\": \"2024-04-26\",\r\n  \"endDate\": \"2024-04-26\",\r\n  \"numberOfRooms\": 1\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{MAJESTICURL}}booking/available-rooms",
+							"host": [
+								"{{MAJESTICURL}}booking"
+							],
+							"path": [
+								"available-rooms"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET ALL BOOKINGS",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{MAJESTICURL}}booking/getAllBookings",
+							"host": [
+								"{{MAJESTICURL}}booking"
+							],
+							"path": [
+								"getAllBookings"
 							]
 						}
 					},
