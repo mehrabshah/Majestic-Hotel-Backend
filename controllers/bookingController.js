@@ -1,6 +1,7 @@
 const { Op, Sequelize } = require('sequelize');
 const Booking = require('../models/booking');
-const Room  = require('../models/room')
+const Room  = require('../models/room');
+const Categories = require('../models/categories');
 
 const createBooking = async (req, res) => {
   const { categoryId, startDate, endDate, numberOfRooms, firstName, lastName, age, status, phoneNumber, email, address, zipCode, city } = req.body;
@@ -111,12 +112,31 @@ const markBookingDone = async (req, res) => {
   }
 };
 const getAvailableRooms = async (req, res) => {
-  try {
-    // Implement logic to get available rooms based on bookings
-    // For example:
-    // const availableRooms = await Room.findAll({ include: [{ model: Booking, where: { startDate: { [Op.lt]: endDate }, endDate: { [Op.gt]: startDate } } }] });
+  const { startDate, endDate, numberOfRooms } = req.body;
 
-    res.status(200).json(availableRooms);
+  try {
+    // Find all rooms that do not have overlapping bookings for the specified dates
+    const availableRooms = await Room.findAll({
+      include: [{
+        model: Booking,
+        required: false,
+        where: {
+          startDate: { [Op.lt]: endDate },
+          endDate: { [Op.gt]: startDate }
+        }
+      }],
+      group: ['Room.categoryId'],
+      having: Sequelize.literal(`COUNT(Room.categoryId) >= ${numberOfRooms}`),
+    });
+
+    // Return the categories of available rooms
+    const availableCategories = availableRooms.map(room => room.categoryId);
+    const categories = await Categories.findAll({
+      where: {
+        id: availableCategories
+      }
+    });
+    res.status(200).json(categories);
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: 'Error retrieving available rooms' });

@@ -54,6 +54,6 @@ const Booking = sequelize.define('Booking', {
   tableName: 'booking',
 });
 
-Booking.belongsTo(Room, { foreignKey: 'roomId' });
+// Booking.belongsTo(Room, { foreignKey: 'roomId' });
 
 module.exports = Booking;

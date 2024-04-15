@@ -2,6 +2,7 @@ const { DataTypes } = require('sequelize');
 const sequelize = require('../config/dbconnection');
 const RoomImage = require('./roomImage');
 const Categories = require('./categories');
+const Booking = require('./booking');
 
 const Room = sequelize.define('Room', {
   name: {
@@ -29,5 +30,5 @@ const Room = sequelize.define('Room', {
 });
 
 Room.hasMany(RoomImage, { foreignKey: 'roomId', onDelete: 'CASCADE' });
-
+Room.hasMany(Booking, { foreignKey: 'roomId' });
 module.exports = Room;
