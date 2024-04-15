@@ -1,219 +1,135 @@
 const Room = require("../models/room");
-const fs = require("fs");
-const { promisify } = require("util");
-const path = require("path");
-const RoomImage = require("../models/roomImage");
 
-const createRoom = async (req, res, filename) => {
-  console.log("Hello");
+async function createRoom(req, res) {
   try {
-    const { name, price, brand, transmission, fuel, doors } = req.body;
-
+    const { name, image, price, description, categoryId } = req.body;
     const newRoom = await Room.create({
       name,
-      image: filename,
+      image,
       price,
-      brand,
-      transmission,
-      fuel,
-      doors,
+      description,
+      categoryId
     });
-
-    return res.status(200).json(newRoom);
+    res.status(201).json(newRoom);
   } catch (error) {
-    console.error(error);
-    return res.status(500).json({ error: "Error creating room" });
+    console.error('Error creating room:', error);
+    res.status(500).json({ message: 'Internal server error' });
   }
-};
-
-const getAllRooms = async (req, res) => {
-  try {
-    const { page = 1, limit = 10 } = req.query; // Default to page 1 and 10 rooms per page
-
-    const offset = (page - 1) * limit;
-
-    const rooms = await Room.findAll({
-      limit: parseInt(limit, 10),
-      offset: offset,
-    });
-    console.log("RETRIEVED Rooms", rooms);
-    const roomsWithImages = await Promise.all(
-      rooms.map(async (room) => {
-        const imageFilePath = path.join("uploads", room.image);
-        const imageBuffer = await fs.promises.readFile(imageFilePath);
-
-        const roomWithImage = {
-          ...room.toJSON(),
-          image: imageBuffer.toString("base64"),
-        };
-
-        return roomWithImage;
-      })
-    );
-
-    res.status(200).json(roomsWithImages);
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ error: "Error retrieving rooms" });
-  }
-};
-
-const getRoomById = async (req, res) => {
-  const { id } = req.params;
-  try {
-    const room = await Room.findByPk(id);
-    if (!room) {
-      res.status(404).json({ error: "Room not found" });
-      return;
-    }
-
-    const imageFilePath = path.join("uploads", room.image);
-    const imageBuffer = await fs.promises.readFile(imageFilePath);
-
-    const roomWithImage = {
-      ...room.toJSON(),
-      image: imageBuffer.toString("base64"),
+}
+async function createBulkRooms(req,res) {
+  const { name, image, price, description, categoryId, numberOfRooms } = req.body;
+  const rooms = [];
+  for (let i = 0; i < numberOfRooms; i++) {
+    const room = {
+      name: `${name} ${i+1}`,
+      image,
+      price,
+      description,
+      categoryId: categoryId
     };
-
-    res.status(200).json(roomWithImage);
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ error: "Error retrieving room" });
+    rooms.push(room);
   }
-};
-
-const updateRoomById = async (req, res, filename) => {
-  const { id } = req.params;
   try {
-    const room = await Room.findByPk(id);
-    if (!room) {
-      res.status(404).json({ error: "Room not found" });
-      return;
-    }
-
-    const prevImageFilePath = path.join("uploads", room.image);
-    if (fs.existsSync(prevImageFilePath)) {
-      fs.unlinkSync(prevImageFilePath);
-    }
-    if (filename) {
-      const newImageFilePath = path.join("uploads", filename);
-      room.image = filename;
-    }
-
-    await room.save();
-
-    res.status(200).json(room);
+    const createdRooms = await Room.bulkCreate(rooms);
+    res.status(201).json(createdRooms);
   } catch (error) {
-    console.error(error);
-    res.status(500).json({ error: "Error updating room" });
-  }
-};
-
-const getRoomWithImages = async (req, res) => {
+    console.error('Error creating bulk rooms:', error);
+    res.status(500).json({ message: 'Internal server error' });  }
+}
+async function updateBulkRooms(req,res) {
+  const { name} = req.body;
   try {
-    const { roomId } = req.params;
-
-    // Find the room by ID
-    const room = await Room.findByPk(roomId, {
-      include: [RoomImage],
-    });
-
-    if (!room) {
-      res.status(404).json({ error: "Room not found" });
-      return;
-    }
-
-    // Extract and load the main room image
-    const imageFilePath = path.join("uploads", room.image);
-    const imageBuffer = await fs.promises.readFile(imageFilePath);
-
-    // Extract and load additional room images
-    const roomImages = await Promise.all(
-      room.RoomImages.map(async (image) => {
-        const imageFilePath = path.join("uploads/", image.filename);
-        const imageBuffer = await fs.promises.readFile(imageFilePath);
-
-        return {
-          filename: image.filename,
-          buffer: imageBuffer.toString("base64"),
-        };
-      })
-    );
-
-    // Combine the room data with the main image and additional images
-    const roomWithImages = {
-      ...room.toJSON(),
-      image: imageBuffer.toString("base64"),
-      additionalImages: roomImages, // Include additional room images
-    };
-
-    // Send the room data along with the image buffers in the response
-    res.status(200).json(roomWithImages);
+    const updatedRooms = await Room.update(req.body, {
+      where: { name: name }
+    });    
+    res.status(201).json(updatedRooms);
   } catch (error) {
-    console.error(error);
-    res.status(500).json({ error: "Error retrieving room and images" });
-  }
-};
-
-const deleteRoomById = async (req, res) => {
-  const { id } = req.params;
+    console.error('Error creating bulk rooms:', error);
+    res.status(500).json({ message: 'Internal server error' });  }
+}
+async function getAllRooms(req, res) {
   try {
-    const room = await Room.findByPk(id);
-    if (!room) {
-      res.status(404).json({ error: "Room not found" });
-      return;
-    }
-
-    const imageFilePath = path.join("uploads", room.image);
-
-    if (fs.existsSync(imageFilePath)) {
-      fs.unlinkSync(imageFilePath);
-    }
-
-    await room.destroy();
-
-    res.status(204).json({ message: "Succesfully deleted a Room" });
+    const rooms = await Room.findAll();
+    res.json(rooms);
   } catch (error) {
-    console.error(error);
-    res.status(500).json({ error: "Error deleting room" });
+    console.error('Error getting all rooms:', error);
+    res.status(500).json({ message: 'Internal server error' });
   }
-};
-const getRoomByBrand = async (req, res) => {
+}
+
+async function getRoomByBrand(req, res) {
   const { brand } = req.params;
-
   try {
-    console.log("BEFORE QUERY", brand);
     const rooms = await Room.findAll({
-      where: { brand },
+      where: {
+        brand: brand
+      }
     });
-    console.log("AFTER QUERY", rooms);
-    const roomsWithImages = await Promise.all(
-      rooms.map(async (room) => {
-        const imageFilePath = path.join("uploads", room.image);
-        const imageBuffer = await fs.promises.readFile(imageFilePath);
-
-        const roomWithImage = {
-          ...room.toJSON(),
-          image: imageBuffer.toString("base64"),
-        };
-
-        return roomWithImage;
-      })
-    );
-
-    res.status(200).json(roomsWithImages);
+    res.json(rooms);
   } catch (error) {
-    console.error(error);
-    res.status(500).json({ error: "Error retrieving rooms by brand" });
+    console.error('Error getting rooms by brand:', error);
+    res.status(500).json({ message: 'Internal server error' });
   }
-};
+}
+
+async function getRoomById(req, res) {
+  const { id } = req.params;
+  try {
+    const room = await Room.findByPk(id);
+    if (!room) {
+      return res.status(404).json({ message: 'Room not found' });
+    }
+    res.json(room);
+  } catch (error) {
+    console.error('Error getting room by ID:', error);
+    res.status(500).json({ message: 'Internal server error' });
+  }
+}
+
+async function updateRoomById(req, res) {
+  const { id } = req.params;
+  try {
+    const room = await Room.findByPk(id);
+    if (!room) {
+      return res.status(404).json({ message: 'Room not found' });
+    }
+    const { name, image, price, description, categoryId } = req.body;
+    await room.update({
+      name,
+      image,
+      price,
+      description,
+      categoryId
+    });
+    res.json(room);
+  } catch (error) {
+    console.error('Error updating room by ID:', error);
+    res.status(500).json({ message: 'Internal server error' });
+  }
+}
+
+async function deleteRoomById(req, res) {
+  const { id } = req.params;
+  try {
+    const room = await Room.findByPk(id);
+    if (!room) {
+      return res.status(404).json({ message: 'Room not found' });
+    }
+    await room.destroy();
+    res.json({ message: 'Room deleted successfully' });
+  } catch (error) {
+    console.error('Error deleting room by ID:', error);
+    res.status(500).json({ message: 'Internal server error' });
+  }
+}
 
 module.exports = {
   createRoom,
   getAllRooms,
+  getRoomByBrand,
   getRoomById,
   updateRoomById,
   deleteRoomById,
-  getRoomWithImages,
-  getRoomByBrand,
+  createBulkRooms,
+  updateBulkRooms,
 };

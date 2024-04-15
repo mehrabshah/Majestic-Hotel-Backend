@@ -3,8 +3,8 @@ const Category  = require('../models/categories');
 
 const createCategory = async (req, res) => {
   try {
-    const { name, image, description, price } = req.body;
-    const newCategory = await Category.create({ name, image, description, price });
+    const { name, image, description, price,capacity } = req.body;
+    const newCategory = await Category.create({ name, image, description, price,capacity });
     res.status(201).json(newCategory);
   } catch (error) {
     console.error(error);

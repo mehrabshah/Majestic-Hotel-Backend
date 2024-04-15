@@ -1,6 +1,7 @@
 const { DataTypes } = require('sequelize');
 const sequelize = require('../config/dbconnection');
 const RoomImage = require('./roomImage');
+const Categories = require('./categories');
 
 const Room = sequelize.define('Room', {
   name: {
@@ -19,6 +20,10 @@ const Room = sequelize.define('Room', {
     type: DataTypes.STRING,
     allowNull: false,
   },
+  categoryId: {
+    type: DataTypes.INTEGER,
+    allowNull: false,
+  }
 }, {
   tableName: 'room',
 });
