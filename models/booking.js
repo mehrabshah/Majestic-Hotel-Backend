@@ -1,48 +1,11 @@
 const { DataTypes } = require('sequelize');
 const sequelize = require('../config/dbconnection');
-const Room = require('./room'); 
+const Room = require('./room');
 
 const Booking = sequelize.define('Booking', {
-  firstName: {
-    type: DataTypes.STRING,
-    allowNull: false,
-  },
-  lastName: {
-    type: DataTypes.STRING,
-    allowNull: false,
-  },
-  age: {
-    type: DataTypes.INTEGER,
-    allowNull: false,
-  },
-  status:{
-    type: DataTypes.STRING,
-  },
-  phoneNumber: {
-    type: DataTypes.STRING,
-    allowNull: false,
-  },
-  email: {
-    type: DataTypes.STRING,
-    allowNull: false,
-  },
-  address: {
-    type: DataTypes.STRING,
-  },
-  zipCode: {
-    type: DataTypes.STRING,
-  },
-  city: {
-    type: DataTypes.STRING,
-    allowNull: false,
-  },
   roomId: {
     type: DataTypes.INTEGER, 
     allowNull: false,
-    references: {
-      model: Room,
-      key: 'id',
-    },
   },
   startDate: {
     type: DataTypes.DATE,
@@ -50,10 +13,20 @@ const Booking = sequelize.define('Booking', {
   endDate: {
     type: DataTypes.DATE,
   },
+  orderId: {
+    type: DataTypes.INTEGER,
+    allowNull: false,
+  },
 }, {
   tableName: 'booking',
 });
 
-// Booking.belongsTo(Room, { foreignKey: 'roomId' });
+Booking.associate = (models) => {
+  Booking.belongsTo(models.Order, {
+    foreignKey: 'orderId',
+    onDelete: 'CASCADE',
+  });
+};
+
 
 module.exports = Booking;

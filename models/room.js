@@ -31,4 +31,8 @@ const Room = sequelize.define('Room', {
 
 Room.hasMany(RoomImage, { foreignKey: 'roomId', onDelete: 'CASCADE' });
 Room.hasMany(Booking, { foreignKey: 'roomId' });
+Booking.belongsTo(Room, {
+  foreignKey: 'roomId',
+  onDelete: 'CASCADE',
+});
 module.exports = Room;

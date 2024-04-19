@@ -29,6 +29,7 @@ const Categories = sequelize.define('Categories', {
 });
 
 Categories.hasMany(Room, { foreignKey: 'categoryId', onDelete: 'CASCADE' });
+Room.belongsTo(Categories);
 Categories.hasMany(RoomImage, { foreignKey: 'roomId', onDelete: 'CASCADE' });
 
 module.exports = Categories;
