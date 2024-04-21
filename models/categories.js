@@ -23,6 +23,10 @@ const Categories = sequelize.define('Categories', {
   capacity: {
     type: DataTypes.INTEGER,
     allowNull: false,
+  },
+  capacityChild: {
+    type: DataTypes.STRING, 
+    allowNull: true,
   }
 }, {
   tableName: 'categories',
