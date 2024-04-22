@@ -10,6 +10,7 @@ router.get('/getAllCategory', contactUsController.getAllCategory);
 
 
 router.get('/category/:id', contactUsController.getCategoryById);
+router.put('/categoriesPriceUpdate', contactUsController.updateCategoryPrices);
 
 
 router.delete('/category/:id', contactUsController.deleteCategoryById);

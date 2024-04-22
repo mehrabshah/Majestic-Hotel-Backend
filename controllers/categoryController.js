@@ -24,6 +24,20 @@ const getAllCategory = async (req, res) => {
     res.status(500).json({ error: 'Error retrieving category entries' });
   }
 };
+const updateCategoryPrices = async (req, res) => {
+  try {
+    const updates = req.body;
+    const updatedCategories = await Promise.all(updates.map(async update => {
+      const { id, price } = update;
+      const updatedCategory = await Category.update({ price: price }, { where: { id: id } });
+      return updatedCategory;
+    }));
+    res.status(200).json(updatedCategories);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Error updating category prices' });
+  }
+};
 
 
 const getCategoryById = async (req, res) => {
@@ -63,4 +77,5 @@ module.exports = {
   getAllCategory,
   getCategoryById,
   deleteCategoryById,
+  updateCategoryPrices
 };
