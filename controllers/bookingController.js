@@ -4,7 +4,7 @@ const Room  = require('../models/room');
 const Categories = require('../models/categories');
 const Order = require('../models/order');
 const sequelize = require('../config/dbconnection');
-
+const stripe = require("stripe")(process.env.STRIPE_API_KEY); 
 const createBooking = async (req, res) => {
   const { categoryId, startDate, endDate, numberOfRooms, firstName, lastName, age, status, phoneNumber, email, address, zipCode, city } = req.body;
 
@@ -290,6 +290,23 @@ const getAvailableRooms = async (req, res) => {
     res.status(500).json({ error: 'Error retrieving available rooms' });
   }
 };
+const getCheckoutUrl = async (req, res) => {
+  try {
+    const { amount, currency, source, description } = req.body;
+
+    const paymentIntent = await stripe.paymentIntents.create({
+      amount,
+      currency,
+      // source,
+      description,
+    });
+
+    res.send({clientSecret: paymentIntent.client_secret});
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: 'Error Creating Payment Url', err });
+  }
+};
 
 
 
@@ -302,5 +319,6 @@ module.exports = {
   markBookingDone,
   getAvailableRooms,
   createMultipleBookings,
-  getOrdersWithRoomCategories
+  getOrdersWithRoomCategories,
+  getCheckoutUrl
 };
