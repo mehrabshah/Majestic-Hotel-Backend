@@ -315,6 +315,24 @@
 					"response": []
 				},
 				{
+					"name": "Delete booking",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{MAJESTICURL}}booking/orders/52",
+							"host": [
+								"{{MAJESTICURL}}booking"
+							],
+							"path": [
+								"orders",
+								"52"
+							]
+						}
+					},
+					"response": []
+				},
+				{
 					"name": "GET ALL BOOKINGS New",
 					"request": {
 						"method": "GET",

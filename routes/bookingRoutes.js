@@ -13,5 +13,6 @@ router.delete('/bookings/:id', bookingController.deleteBookingById);
 router.put('/bookings/:id/mark-done', bookingController.markBookingDone);
 router.post('/available-rooms', bookingController.getAvailableRooms);
 router.post('/create-checkout-session', bookingController.getCheckoutUrl);
+router.delete('/orders/:orderId', bookingController.deleteOrderAndBookings);
 
 module.exports = router;

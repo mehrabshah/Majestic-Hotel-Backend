@@ -369,6 +369,29 @@ const getCheckoutUrl = async (req, res) => {
     res.status(500).json({ error: 'Error Creating Payment Url', err });
   }
 };
+const deleteOrderAndBookings = async (req, res) => {
+  const { orderId } = req.params; // Assuming orderId is passed in the URL params
+
+  try {
+    // Find the order by its ID
+    const order = await Order.findByPk(orderId);
+
+    if (!order) {
+      return res.status(404).json({ error: 'Order not found' });
+    }
+
+    // Delete all bookings associated with the order
+    await Booking.destroy({ where: { orderId } });
+
+    // Delete the order
+    await Order.destroy({ where: { id: orderId } });
+
+    res.status(200).json({ message: 'Order and associated bookings deleted successfully' });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Error deleting order and bookings' });
+  }
+};
 
 
 
@@ -383,5 +406,6 @@ module.exports = {
   createMultipleBookings,
   getOrdersWithRoomCategories,
   getCheckoutUrl,
-  editOrderAndBookings
+  editOrderAndBookings,
+  deleteOrderAndBookings
 };
