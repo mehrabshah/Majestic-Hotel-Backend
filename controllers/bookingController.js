@@ -110,6 +110,68 @@ const createMultipleBookings = async (req, res) => {
   }
 };
 
+const editOrderAndBookings = async (req, res) => {
+  const { orderId, startDate, endDate, newOrderDetails } = req.body;
+
+  try {
+    const updatedOrder = await Order.update(newOrderDetails, {
+      where: { id: orderId },
+      returning: true,
+    });
+
+    if (updatedOrder[0] === 0) {
+      return res.status(404).json({ error: 'Order not found' });
+    }
+    const bookings = await Booking.findAll({ where: { orderId } });
+    if (bookings.length === 0) {
+      return res.status(404).json({ error: 'No bookings found for the provided order' });
+    }
+
+    const updatedBookings = [];
+
+    for (const booking of bookings) {
+      const room = await Room.findByPk(booking.roomId);
+      const overlappingBooking = await Booking.findOne({
+        where: {
+          roomId: booking.roomId,
+          startDate: { [Op.lt]: endDate },
+          endDate: { [Op.gt]: startDate },
+          orderId: { [Op.ne]: orderId },
+        }
+      });
+
+      // If there's an overlapping booking, return an error
+      if (overlappingBooking) {
+        return res.status(400).json({ error: 'There are overlapping bookings for the specified dates' });
+      }
+
+      // Update the booking with the new start and end dates
+      const updatedBooking = await Booking.update(
+        { startDate, endDate },
+        {
+          where: { id: booking.id, orderId },
+          returning: true,
+        }
+      );
+
+      if (updatedBooking[0] === 0) {
+        return res.status(404).json({ error: 'Booking not found for the provided order' });
+      }
+
+      updatedBookings.push(updatedBooking[1][0]);
+    }
+    const updatedOrderWithBooking = await Order.findOne({
+      where: { id: orderId },
+      include: [{ model: Booking}],
+    });
+
+    res.status(200).json(updatedOrderWithBooking);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Error updating order and bookings' });
+  }
+};
+
 
 
 const getAllBookings = async (req, res) => {
@@ -320,5 +382,6 @@ module.exports = {
   getAvailableRooms,
   createMultipleBookings,
   getOrdersWithRoomCategories,
-  getCheckoutUrl
+  getCheckoutUrl,
+  editOrderAndBookings
 };

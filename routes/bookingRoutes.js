@@ -5,6 +5,7 @@ const bookingController = require('../controllers/bookingController');
 
 router.post('/createBookings', bookingController.createBooking);
 router.post('/createMultipleBookings', bookingController.createMultipleBookings);
+router.post('/editMultipleBookings', bookingController.editOrderAndBookings);
 router.get('/getAllBookings', bookingController.getAllBookings);
 router.get('/getAllBookingsWithDetails', bookingController.getOrdersWithRoomCategories);
 router.get('/bookings/:id', bookingController.getBookingById);

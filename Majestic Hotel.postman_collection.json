@@ -194,6 +194,32 @@
 					"response": []
 				},
 				{
+					"name": "CREATE Checkout URL",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"amount\": 1000, // Amount in cents (e.g., $10.00)\r\n  \"currency\": \"usd\", // Currency code (e.g., USD)\r\n  \"source\": \"tok_visa\", // Test card token provided by Stripe for testing\r\n  \"description\": \"Hotel booking payment\" // Description of the payment\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{MAJESTICURL}}booking/create-checkout-session",
+							"host": [
+								"{{MAJESTICURL}}booking"
+							],
+							"path": [
+								"create-checkout-session"
+							]
+						}
+					},
+					"response": []
+				},
+				{
 					"name": "CREATE Multiple Booking",
 					"request": {
 						"method": "POST",
@@ -214,6 +240,32 @@
 							],
 							"path": [
 								"createMultipleBookings"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "EDIT Multiple Booking",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"orderId\": \"52\",\r\n  \"startDate\": \"2024-05-20\",\r\n  \"endDate\": \"2024-05-25\",\r\n  \"newOrderDetails\": {\r\n    \"firstName\": \"NewFirstName\",\r\n    \"lastName\": \"NewLastName\",\r\n    \"age\": 35,\r\n    \"status\": \"UpdatedStatus\",\r\n    \"phoneNumber\": \"9876543210\",\r\n    \"emailAddress\": \"new.email@example.com\",\r\n    \"address\": \"456 Elm St\",\r\n    \"city\": \"Los Angeles\",\r\n    \"postalCode\": \"54321\",\r\n    \"countryRegionCode\": \"US\"\r\n  }\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{MAJESTICURL}}booking/editMultipleBookings",
+							"host": [
+								"{{MAJESTICURL}}booking"
+							],
+							"path": [
+								"editMultipleBookings"
 							]
 						}
 					},
