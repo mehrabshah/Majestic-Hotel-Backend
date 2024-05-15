@@ -1,4 +1,6 @@
 const Category  = require('../models/categories'); 
+const CategoryPrices  = require('../models/CategoryPrices'); 
+const Prices  = require('../models/price'); 
 
 
 const createCategory = async (req, res) => {
@@ -72,10 +74,47 @@ const deleteCategoryById = async (req, res) => {
   }
 };
 
+const addCategoryPrice = async (req, res) => {
+  const { date, price,categoryId } = req.body;
+
+  try {
+    // Find the category by ID
+    const category = await Category.findByPk(categoryId);
+
+    if (!category) {
+      return res.status(404).json({ error: 'Category not found' });
+    }
+
+    // Create the price entry
+    const [priceEntry, created] = await Prices.findOrCreate({
+      where: { date },
+      defaults: { price }
+    });
+
+    if (!created) {
+      priceEntry.price = price;
+      await priceEntry.save();
+    }
+
+    // Associate the price entry with the category
+    await CategoryPrices.findOrCreate({
+      where: {
+        categoryId: category.id,
+        priceId: priceEntry.id
+      }
+    });
+
+    res.status(201).json({ message: 'Price added successfully', price: priceEntry });
+  } catch (error) {
+    res.status(500).json({ error: 'An error occurred while adding the price', details: error.message });
+  }
+};
+
 module.exports = {
   createCategory,
   getAllCategory,
   getCategoryById,
   deleteCategoryById,
-  updateCategoryPrices
+  updateCategoryPrices,
+  addCategoryPrice
 };

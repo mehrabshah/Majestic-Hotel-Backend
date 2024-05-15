@@ -2,6 +2,8 @@ const { DataTypes } = require('sequelize');
 const sequelize = require('../config/dbconnection');
 const RoomImage = require('./roomImage');
 const Room = require('./room');
+const Prices = require('./price');
+const CategoryPrices = require('./CategoryPrices');
 
 const Categories = sequelize.define('Categories', {
   name: {
@@ -16,10 +18,6 @@ const Categories = sequelize.define('Categories', {
     type: DataTypes.STRING,
     allowNull: false,
   },
-  price: {
-    type: DataTypes.FLOAT, 
-    allowNull: false,
-  },
   capacity: {
     type: DataTypes.INTEGER,
     allowNull: false,
@@ -31,7 +29,8 @@ const Categories = sequelize.define('Categories', {
 }, {
   tableName: 'categories',
 });
-
+Categories.belongsToMany(Prices, { through: CategoryPrices, foreignKey: 'categoryId' });
+Prices.belongsToMany(Categories, { through: CategoryPrices, foreignKey: 'priceId' });
 Categories.hasMany(Room, { foreignKey: 'categoryId', onDelete: 'CASCADE' });
 Room.belongsTo(Categories);
 Categories.hasMany(RoomImage, { foreignKey: 'roomId', onDelete: 'CASCADE' });
