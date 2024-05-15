@@ -370,7 +370,7 @@ const getCheckoutUrl = async (req, res) => {
   }
 };
 const deleteOrderAndBookings = async (req, res) => {
-  const { orderId } = req.params; // Assuming orderId is passed in the URL params
+  const { orderId } = req.params;
 
   try {
     // Find the order by its ID
@@ -380,7 +380,6 @@ const deleteOrderAndBookings = async (req, res) => {
       return res.status(404).json({ error: 'Order not found' });
     }
 
-    // Delete all bookings associated with the order
     await Booking.destroy({ where: { orderId } });
 
     // Delete the order
@@ -393,7 +392,54 @@ const deleteOrderAndBookings = async (req, res) => {
   }
 };
 
+const calculateTotalPrice = async (req, res) => {
+  const { bookingDetails, startDate, endDate } = req.body;
 
+  try {
+    let totalPrice = 0;
+
+    for (const booking of bookingDetails) {
+      const { categoryId, numberOfRooms } = booking;
+
+      let currentDate = new Date(startDate);
+      while (currentDate <= new Date(endDate)) {
+        const categoryPrice = await getCategoryPriceForDate(categoryId, currentDate);
+        totalPrice += categoryPrice * numberOfRooms;
+        currentDate.setDate(currentDate.getDate() + 1);
+      }
+    }
+
+    res.status(200).json({ totalPrice });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Error calculating total price', details: error.message });
+  }
+};
+
+const getCategoryPriceForDate = async (categoryId, date) => {
+  try {
+    const category = await Categories.findByPk(categoryId);
+    console.log(category.price)
+    if (!category) {
+      throw new Error('Category not found');
+    }
+
+    // Find the price for the given date
+    const priceEntry = await category.getPrices({
+      where: { date },
+      attributes: ['price'],
+      raw: true
+    });
+
+    if (priceEntry.length > 0) {
+      return priceEntry[0].price; 
+    } else {
+      return category.price
+    }
+  } catch (error) {
+    throw new Error(`Error fetching category price for date: ${error.message}`);
+  }
+};
 
 
 module.exports = {
@@ -407,5 +453,6 @@ module.exports = {
   getOrdersWithRoomCategories,
   getCheckoutUrl,
   editOrderAndBookings,
-  deleteOrderAndBookings
+  deleteOrderAndBookings,
+  calculateTotalPrice
 };

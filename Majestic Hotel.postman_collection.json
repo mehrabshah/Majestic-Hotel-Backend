@@ -98,6 +98,60 @@
 					"response": []
 				},
 				{
+					"name": "ADD PRICE TO CATEGORIES",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"date\": \"2024-12-26\",\r\n    \"price\": 200.0,\r\n    \"categoryId\":1\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{MAJESTICURL}}category/category/addPrice",
+							"host": [
+								"{{MAJESTICURL}}category"
+							],
+							"path": [
+								"category",
+								"addPrice"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET PRICE OF CATEGORIES",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"id\":1\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{MAJESTICURL}}category/category/getPricesById",
+							"host": [
+								"{{MAJESTICURL}}category"
+							],
+							"path": [
+								"category",
+								"getPricesById"
+							]
+						}
+					},
+					"response": []
+				},
+				{
 					"name": "GET ALL CATEGORIES",
 					"request": {
 						"method": "GET",
@@ -292,6 +346,32 @@
 							],
 							"path": [
 								"available-rooms"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "CALCULATE PRICE",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"bookingDetails\": [\r\n        {\r\n            \"categoryId\": 1,\r\n            \"numberOfRooms\": 2\r\n        },\r\n        {\r\n            \"categoryId\": 4,\r\n            \"numberOfRooms\": 2\r\n        }\r\n    ],\r\n    \"startDate\": \"2024-12-25\",\r\n    \"endDate\": \"2024-12-26\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{MAJESTICURL}}booking/calculateTotalPrice",
+							"host": [
+								"{{MAJESTICURL}}booking"
+							],
+							"path": [
+								"calculateTotalPrice"
 							]
 						}
 					},

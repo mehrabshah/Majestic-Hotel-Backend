@@ -14,5 +14,6 @@ router.put('/categoriesPriceUpdate', categoryController.updateCategoryPrices);
 
 router.post('/category/addPrice', categoryController.addCategoryPrice);
 router.delete('/category/:id', categoryController.deleteCategoryById);
+router.post('/category/getPricesById', categoryController.getCategoryWithPrices);
 
 module.exports = router;

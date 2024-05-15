@@ -18,6 +18,10 @@ const Categories = sequelize.define('Categories', {
     type: DataTypes.STRING,
     allowNull: false,
   },
+  price: {
+    type: DataTypes.FLOAT, 
+    allowNull: false,
+  },
   capacity: {
     type: DataTypes.INTEGER,
     allowNull: false,

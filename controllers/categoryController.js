@@ -109,12 +109,32 @@ const addCategoryPrice = async (req, res) => {
     res.status(500).json({ error: 'An error occurred while adding the price', details: error.message });
   }
 };
+const getCategoryWithPrices = async (req, res) => {
+  const { id } = req.body;
+  try {
+    const category = await Category.findByPk(id, {
+      include: {
+        model: Prices,
+        through: { attributes: [] }
+      }
+    });
 
+    if (!category) {
+      return res.status(404).json({ error: 'Category not found' });
+    }
+
+    res.status(200).json(category);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Error retrieving category with prices', details: error.message });
+  }
+};
 module.exports = {
   createCategory,
   getAllCategory,
   getCategoryById,
   deleteCategoryById,
   updateCategoryPrices,
-  addCategoryPrice
+  addCategoryPrice,
+  getCategoryWithPrices
 };
