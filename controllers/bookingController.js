@@ -397,19 +397,26 @@ const calculateTotalPrice = async (req, res) => {
 
   try {
     let totalPrice = 0;
+    let categoryTotalPrices = {}; // Object to store total prices per category
 
     for (const booking of bookingDetails) {
       const { categoryId, numberOfRooms } = booking;
+      let categoryTotalPrice = 0; // Initialize total price for the current category
 
       let currentDate = new Date(startDate);
       while (currentDate <= new Date(endDate)) {
         const categoryPrice = await getCategoryPriceForDate(categoryId, currentDate);
-        totalPrice += categoryPrice * numberOfRooms;
+        const bookingPrice = categoryPrice * numberOfRooms;
+        totalPrice += bookingPrice;
+        categoryTotalPrice += bookingPrice;
         currentDate.setDate(currentDate.getDate() + 1);
       }
+
+      // Store total price for the current category
+      categoryTotalPrices[categoryId] = categoryTotalPrice;
     }
 
-    res.status(200).json({ totalPrice });
+    res.status(200).json({ totalPrice, categoryTotalPrices });
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: 'Error calculating total price', details: error.message });
@@ -419,7 +426,6 @@ const calculateTotalPrice = async (req, res) => {
 const getCategoryPriceForDate = async (categoryId, date) => {
   try {
     const category = await Categories.findByPk(categoryId);
-    console.log(category.price)
     if (!category) {
       throw new Error('Category not found');
     }
@@ -434,12 +440,13 @@ const getCategoryPriceForDate = async (categoryId, date) => {
     if (priceEntry.length > 0) {
       return priceEntry[0].price; 
     } else {
-      return category.price
+      return category.price;
     }
   } catch (error) {
     throw new Error(`Error fetching category price for date: ${error.message}`);
   }
 };
+
 
 
 module.exports = {
