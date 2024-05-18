@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: May 03, 2024 at 06:22 PM
+-- Generation Time: May 18, 2024 at 07:20 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -37,6 +37,14 @@ CREATE TABLE `booking` (
   `updatedAt` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Dumping data for table `booking`
+--
+
+INSERT INTO `booking` (`id`, `roomId`, `startDate`, `endDate`, `orderId`, `createdAt`, `updatedAt`) VALUES
+(106, 85, '2024-05-11 00:00:00', '2024-05-12 00:00:00', 53, '2024-05-11 11:52:11', '2024-05-11 11:52:11'),
+(107, 86, '2024-05-11 00:00:00', '2024-05-12 00:00:00', 53, '2024-05-11 11:52:11', '2024-05-11 11:52:11');
+
 -- --------------------------------------------------------
 
 --
@@ -48,26 +56,26 @@ CREATE TABLE `categories` (
   `name` varchar(255) NOT NULL,
   `image` varchar(255) NOT NULL,
   `description` varchar(255) NOT NULL,
-  `price` float NOT NULL,
   `createdAt` datetime NOT NULL,
   `updatedAt` datetime NOT NULL,
   `capacity` int(11) NOT NULL,
-  `capacityChild` varchar(255) DEFAULT NULL
+  `capacityChild` varchar(255) DEFAULT NULL,
+  `price` float NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `categories`
 --
 
-INSERT INTO `categories` (`id`, `name`, `image`, `description`, `price`, `createdAt`, `updatedAt`, `capacity`, `capacityChild`) VALUES
-(1, 'Double Room', './assets/RoomImages/DoubleRoom/doubleRoom1.jpg', 'These rooms have private bathrooms, a TV, a hairdryer, and tea/coffee making facilities. When booking 5 rooms or more, different terms and conditions will apply', 500, '2024-04-14 15:43:08', '2024-04-28 18:27:47', 2, NULL),
-(2, 'Twin Room', './assets/RoomImages/TwinRoom/twinRoom1.jpg', 'These rooms have private bathrooms, a TV, a hairdryer, and tea/coffee making facilities.', 500, '2024-04-14 15:45:24', '2024-04-28 18:27:47', 2, NULL),
-(3, 'Single Room', './assets/RoomImages/SingleRoom/singleRoom1.jpg', 'These rooms have private bathrooms, a TV, a hairdryer, and tea/coffee making facilities.', 500, '2024-04-14 15:46:38', '2024-04-28 18:27:47', 1, NULL),
-(4, 'Double Room with Sea View', './assets/RoomImages/DoubleRoomSV/doubleRoomSeeView1.jpg', 'The double room features a wardrobe, an electric kettle, as well as a private bathroom boasting a bath or a shower and a hairdryer. The unit has 1 bed.', 500, '2024-04-14 15:48:44', '2024-04-28 18:27:47', 2, NULL),
-(5, 'Superior Double Room Sea View', './assets/RoomImages/SuperiorDoubleRoom/SuperiorDoubleRoom1.jpg', 'The family room features a wardrobe, an electric kettle, as well as a private bathroom boasting a bath or a shower and a hairdryer. This family room has a carpeted floor, heating and a TV. The unit has 3 beds.', 500, '2024-04-14 15:54:12', '2024-04-28 18:27:47', 2, NULL),
-(6, 'Twin Room with Sea View', './assets/RoomImages/TwinRoomSV/TwinRoomSV1.jpg', 'The twin room features a wardrobe, an electric kettle, as well as a private bathroom boasting a bath or a shower and a hairdryer. The unit has 2 beds.', 300, '2024-04-14 18:09:30', '2024-04-28 18:27:47', 2, NULL),
-(7, 'Family Room', './assets/RoomImages/FamilyRoom/FamilyRoom1.webp', 'The family room features a wardrobe, an electric kettle, as well as a private bathroom boasting a bath or a shower and a hairdryer. This family room has a carpeted floor, heating and a TV. The unit has 3 beds.', 500, '2024-04-14 18:10:29', '2024-04-28 18:27:47', 4, NULL),
-(8, 'Single Room Sea View', './assets/RoomImages/SingleRoom/singleRoom1.jpg', 'These rooms have private bathrooms, a TV, a hairdryer, and tea/coffee making facilities.', 500, '2024-04-15 16:54:44', '2024-04-28 18:27:47', 1, NULL);
+INSERT INTO `categories` (`id`, `name`, `image`, `description`, `createdAt`, `updatedAt`, `capacity`, `capacityChild`, `price`) VALUES
+(1, 'Double Room', './assets/RoomImages/DoubleRoom/doubleRoom1.jpg', 'These rooms have private bathrooms, a TV, a hairdryer, and tea/coffee making facilities. When booking 5 rooms or more, different terms and conditions will apply', '2024-04-14 15:43:08', '2024-04-28 18:27:47', 2, NULL, 100),
+(2, 'Twin Room', './assets/RoomImages/TwinRoom/twinRoom1.jpg', 'These rooms have private bathrooms, a TV, a hairdryer, and tea/coffee making facilities.', '2024-04-14 15:45:24', '2024-04-28 18:27:47', 2, NULL, 200),
+(3, 'Single Room', './assets/RoomImages/SingleRoom/singleRoom1.jpg', 'These rooms have private bathrooms, a TV, a hairdryer, and tea/coffee making facilities.', '2024-04-14 15:46:38', '2024-04-28 18:27:47', 1, NULL, 200),
+(4, 'Double Room with Sea View', './assets/RoomImages/DoubleRoomSV/doubleRoomSeeView1.jpg', 'The double room features a wardrobe, an electric kettle, as well as a private bathroom boasting a bath or a shower and a hairdryer. The unit has 1 bed.', '2024-04-14 15:48:44', '2024-04-28 18:27:47', 2, NULL, 40),
+(5, 'Superior Double Room Sea View', './assets/RoomImages/SuperiorDoubleRoom/SuperiorDoubleRoom1.jpg', 'The family room features a wardrobe, an electric kettle, as well as a private bathroom boasting a bath or a shower and a hairdryer. This family room has a carpeted floor, heating and a TV. The unit has 3 beds.', '2024-04-14 15:54:12', '2024-04-28 18:27:47', 2, NULL, 60),
+(6, 'Twin Room with Sea View', './assets/RoomImages/TwinRoomSV/TwinRoomSV1.jpg', 'The twin room features a wardrobe, an electric kettle, as well as a private bathroom boasting a bath or a shower and a hairdryer. The unit has 2 beds.', '2024-04-14 18:09:30', '2024-04-28 18:27:47', 2, NULL, 50),
+(7, 'Family Room', './assets/RoomImages/FamilyRoom/FamilyRoom1.webp', 'The family room features a wardrobe, an electric kettle, as well as a private bathroom boasting a bath or a shower and a hairdryer. This family room has a carpeted floor, heating and a TV. The unit has 3 beds.', '2024-04-14 18:10:29', '2024-04-28 18:27:47', 4, NULL, 50),
+(8, 'Single Room Sea View', './assets/RoomImages/SingleRoom/singleRoom1.jpg', 'These rooms have private bathrooms, a TV, a hairdryer, and tea/coffee making facilities.', '2024-04-15 16:54:44', '2024-04-28 18:27:47', 1, NULL, 60);
 
 -- --------------------------------------------------------
 
@@ -82,6 +90,27 @@ CREATE TABLE `category_images` (
   `createdAt` datetime NOT NULL,
   `updatedAt` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `category_prices`
+--
+
+CREATE TABLE `category_prices` (
+  `categoryId` int(11) DEFAULT NULL,
+  `priceId` int(11) DEFAULT NULL,
+  `createdAt` datetime NOT NULL DEFAULT current_timestamp(),
+  `updatedAt` datetime NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `category_prices`
+--
+
+INSERT INTO `category_prices` (`categoryId`, `priceId`, `createdAt`, `updatedAt`) VALUES
+(1, 1, '2024-05-15 15:21:16', '2024-05-15 15:21:16'),
+(1, 2, '2024-05-15 19:19:33', '2024-05-15 19:19:33');
 
 -- --------------------------------------------------------
 
@@ -129,6 +158,35 @@ CREATE TABLE `orders` (
   `createdAt` datetime NOT NULL,
   `updatedAt` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `orders`
+--
+
+INSERT INTO `orders` (`id`, `firstName`, `lastName`, `emailAddress`, `address`, `city`, `postalCode`, `countryRegionCode`, `phoneNumber`, `createdAt`, `updatedAt`) VALUES
+(53, 'Hassan', 'Shahzad', 'hassanshahzadu@gmail.com', 'Lahore Township', 'Lahore', '54770', 'Pakistan', '03220722023', '2024-05-11 11:52:10', '2024-05-11 11:52:10');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `prices`
+--
+
+CREATE TABLE `prices` (
+  `id` int(11) NOT NULL,
+  `date` date NOT NULL,
+  `price` float NOT NULL,
+  `createdAt` datetime NOT NULL,
+  `updatedAt` datetime NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `prices`
+--
+
+INSERT INTO `prices` (`id`, `date`, `price`, `createdAt`, `updatedAt`) VALUES
+(1, '2024-12-25', 200, '2024-05-15 15:17:02', '2024-05-15 15:17:02'),
+(2, '2024-12-26', 200, '2024-05-15 19:19:33', '2024-05-15 19:19:33');
 
 -- --------------------------------------------------------
 
@@ -288,7 +346,11 @@ INSERT INTO `sequelizemeta` (`name`) VALUES
 ('20240415143432-add_capacity_to_categories.js'),
 ('20240415143438-add_categoryId_to_room.js'),
 ('20240419154813-order.js'),
-('20240421081410-add_categoryChild_column.js');
+('20240421081410-add_categoryChild_column.js'),
+('20240515150150-create-prices.js'),
+('20240515150214-create-categoryprices.js'),
+('20240515194952-remove-price-column-from-categories.js'),
+('20240515202029-add-price-column-to-categories.js');
 
 -- --------------------------------------------------------
 
@@ -340,6 +402,13 @@ ALTER TABLE `category_images`
   ADD KEY `categoryId` (`categoryId`);
 
 --
+-- Indexes for table `category_prices`
+--
+ALTER TABLE `category_prices`
+  ADD KEY `categoryId` (`categoryId`),
+  ADD KEY `priceId` (`priceId`);
+
+--
 -- Indexes for table `contact_us`
 --
 ALTER TABLE `contact_us`
@@ -349,6 +418,12 @@ ALTER TABLE `contact_us`
 -- Indexes for table `orders`
 --
 ALTER TABLE `orders`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `prices`
+--
+ALTER TABLE `prices`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -387,7 +462,7 @@ ALTER TABLE `user`
 -- AUTO_INCREMENT for table `booking`
 --
 ALTER TABLE `booking`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=104;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=108;
 
 --
 -- AUTO_INCREMENT for table `categories`
@@ -411,7 +486,13 @@ ALTER TABLE `contact_us`
 -- AUTO_INCREMENT for table `orders`
 --
 ALTER TABLE `orders`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=52;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=54;
+
+--
+-- AUTO_INCREMENT for table `prices`
+--
+ALTER TABLE `prices`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `room`
@@ -447,6 +528,13 @@ ALTER TABLE `booking`
 --
 ALTER TABLE `category_images`
   ADD CONSTRAINT `category_images_ibfk_1` FOREIGN KEY (`categoryId`) REFERENCES `categories` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Constraints for table `category_prices`
+--
+ALTER TABLE `category_prices`
+  ADD CONSTRAINT `category_prices_ibfk_1` FOREIGN KEY (`categoryId`) REFERENCES `categories` (`id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `category_prices_ibfk_2` FOREIGN KEY (`priceId`) REFERENCES `prices` (`id`) ON DELETE CASCADE;
 
 --
 -- Constraints for table `room`
