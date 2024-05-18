@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: May 18, 2024 at 07:20 PM
+-- Generation Time: May 18, 2024 at 08:40 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -68,14 +68,14 @@ CREATE TABLE `categories` (
 --
 
 INSERT INTO `categories` (`id`, `name`, `image`, `description`, `createdAt`, `updatedAt`, `capacity`, `capacityChild`, `price`) VALUES
-(1, 'Double Room', './assets/RoomImages/DoubleRoom/doubleRoom1.jpg', 'These rooms have private bathrooms, a TV, a hairdryer, and tea/coffee making facilities. When booking 5 rooms or more, different terms and conditions will apply', '2024-04-14 15:43:08', '2024-04-28 18:27:47', 2, NULL, 100),
-(2, 'Twin Room', './assets/RoomImages/TwinRoom/twinRoom1.jpg', 'These rooms have private bathrooms, a TV, a hairdryer, and tea/coffee making facilities.', '2024-04-14 15:45:24', '2024-04-28 18:27:47', 2, NULL, 200),
-(3, 'Single Room', './assets/RoomImages/SingleRoom/singleRoom1.jpg', 'These rooms have private bathrooms, a TV, a hairdryer, and tea/coffee making facilities.', '2024-04-14 15:46:38', '2024-04-28 18:27:47', 1, NULL, 200),
-(4, 'Double Room with Sea View', './assets/RoomImages/DoubleRoomSV/doubleRoomSeeView1.jpg', 'The double room features a wardrobe, an electric kettle, as well as a private bathroom boasting a bath or a shower and a hairdryer. The unit has 1 bed.', '2024-04-14 15:48:44', '2024-04-28 18:27:47', 2, NULL, 40),
-(5, 'Superior Double Room Sea View', './assets/RoomImages/SuperiorDoubleRoom/SuperiorDoubleRoom1.jpg', 'The family room features a wardrobe, an electric kettle, as well as a private bathroom boasting a bath or a shower and a hairdryer. This family room has a carpeted floor, heating and a TV. The unit has 3 beds.', '2024-04-14 15:54:12', '2024-04-28 18:27:47', 2, NULL, 60),
-(6, 'Twin Room with Sea View', './assets/RoomImages/TwinRoomSV/TwinRoomSV1.jpg', 'The twin room features a wardrobe, an electric kettle, as well as a private bathroom boasting a bath or a shower and a hairdryer. The unit has 2 beds.', '2024-04-14 18:09:30', '2024-04-28 18:27:47', 2, NULL, 50),
-(7, 'Family Room', './assets/RoomImages/FamilyRoom/FamilyRoom1.webp', 'The family room features a wardrobe, an electric kettle, as well as a private bathroom boasting a bath or a shower and a hairdryer. This family room has a carpeted floor, heating and a TV. The unit has 3 beds.', '2024-04-14 18:10:29', '2024-04-28 18:27:47', 4, NULL, 50),
-(8, 'Single Room Sea View', './assets/RoomImages/SingleRoom/singleRoom1.jpg', 'These rooms have private bathrooms, a TV, a hairdryer, and tea/coffee making facilities.', '2024-04-15 16:54:44', '2024-04-28 18:27:47', 1, NULL, 60);
+(1, 'Double Room', './assets/RoomImages/DoubleRoom/doubleRoom1.jpg', 'These rooms have private bathrooms, a TV, a hairdryer, and tea/coffee making facilities. When booking 5 rooms or more, different terms and conditions will apply', '2024-04-14 15:43:08', '2024-04-28 18:27:47', 2, '2', 100),
+(2, 'Twin Room', './assets/RoomImages/TwinRoom/twinRoom1.jpg', 'These rooms have private bathrooms, a TV, a hairdryer, and tea/coffee making facilities.', '2024-04-14 15:45:24', '2024-04-28 18:27:47', 2, '2', 200),
+(3, 'Single Room', './assets/RoomImages/SingleRoom/singleRoom1.jpg', 'These rooms have private bathrooms, a TV, a hairdryer, and tea/coffee making facilities.', '2024-04-14 15:46:38', '2024-04-28 18:27:47', 1, '2', 200),
+(4, 'Double Room with Sea View', './assets/RoomImages/DoubleRoomSV/doubleRoomSeeView1.jpg', 'The double room features a wardrobe, an electric kettle, as well as a private bathroom boasting a bath or a shower and a hairdryer. The unit has 1 bed.', '2024-04-14 15:48:44', '2024-04-28 18:27:47', 2, '2', 40),
+(5, 'Superior Double Room Sea View', './assets/RoomImages/SuperiorDoubleRoom/SuperiorDoubleRoom1.jpg', 'The family room features a wardrobe, an electric kettle, as well as a private bathroom boasting a bath or a shower and a hairdryer. This family room has a carpeted floor, heating and a TV. The unit has 3 beds.', '2024-04-14 15:54:12', '2024-04-28 18:27:47', 2, '2', 60),
+(6, 'Twin Room with Sea View', './assets/RoomImages/TwinRoomSV/TwinRoomSV1.jpg', 'The twin room features a wardrobe, an electric kettle, as well as a private bathroom boasting a bath or a shower and a hairdryer. The unit has 2 beds.', '2024-04-14 18:09:30', '2024-04-28 18:27:47', 2, '2', 50),
+(7, 'Family Room', './assets/RoomImages/FamilyRoom/FamilyRoom1.webp', 'The family room features a wardrobe, an electric kettle, as well as a private bathroom boasting a bath or a shower and a hairdryer. This family room has a carpeted floor, heating and a TV. The unit has 3 beds.', '2024-04-14 18:10:29', '2024-04-28 18:27:47', 3, '2', 50),
+(8, 'Single Room Sea View', './assets/RoomImages/SingleRoom/singleRoom1.jpg', 'These rooms have private bathrooms, a TV, a hairdryer, and tea/coffee making facilities.', '2024-04-15 16:54:44', '2024-04-28 18:27:47', 1, '2', 60);
 
 -- --------------------------------------------------------
 
